@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -42,6 +42,25 @@ jobs:
           name: orbit-space-apks
           path: app/build/outputs/apk/**/*.apk
           if-no-files-found: error
+
+      # Also puts the release APKs on a branch of their own, so they can be
+      # downloaded straight from the repository without unzipping an artifact.
+      # The branch is replaced on every build and holds a single commit.
+      - name: Publish the release APKs to the orbit-space-apk branch
+        if: github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/apk-out"
+          cp app/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk-out/"
+          cd "$RUNNER_TEMP/apk-out"
+          sha256sum *.apk > SHA256SUMS.txt
+          git init -q -b orbit-space-apk
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "APKs built from ${GITHUB_SHA}"
+          git push -q -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" orbit-space-apk
 
       - name: Upload build reports if the build failed
         if: failure()

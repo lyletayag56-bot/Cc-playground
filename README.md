@@ -117,6 +117,13 @@ What to expect:
 - The `arm64-v8a-debug` build opens up every process without the per-app switch.
   It is slower and is only there to tell an Orbit Space problem from a tool problem.
 
+Some tools install a copy of themselves inside the space (for example, to run
+under a different package name). Orbit Space now handles an in-space install
+request by installing the APK into the same space; the new copy then shows up on
+the home grid. This does not hide the space or the tool from a game or anti-cheat:
+whatever name it runs under, it is still running inside a space that an online
+game can detect, so the offline-only limit above is unchanged.
+
 ## Root
 
 Orbit Space does not need root and does not create it.

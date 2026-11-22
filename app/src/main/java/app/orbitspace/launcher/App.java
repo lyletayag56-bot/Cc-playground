@@ -2,10 +2,16 @@ package app.orbitspace.launcher;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.io.File;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration;
+import top.niunaijun.blackbox.entity.pm.InstallResult;
 
 /**
  * Starts the virtualization engine.
@@ -85,6 +91,68 @@ public class App extends Application {
         @Override
         public boolean isEnableLogcatCapture() {
             return false;
+        }
+
+        /**
+         * A guest app asked Android to install an APK (via an install intent).
+         * Inside a space that request can't go to the real system installer: the
+         * APK sits in the space's own storage, which the system can't read, and a
+         * system install would land on the phone rather than in the space. So we
+         * install it into the same space ourselves and consume the request.
+         *
+         * This is the normal path for any in-space installer. It runs off the
+         * guest's main thread because copying the APK can take a moment.
+         */
+        @Override
+        public boolean requestInstallPackage(final File file, final int userId) {
+            if (file == null || !file.exists()) {
+                return false;
+            }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    installIntoSpace(file, userId);
+                }
+            }, "orbit-guest-install").start();
+            return true;
+        }
+
+        private void installIntoSpace(File file, int userId) {
+            String message;
+            try {
+                InstallResult result = BlackBoxCore.get().installPackageAsUser(file, userId);
+                if (result != null && result.success) {
+                    message = "Installed into this space";
+                } else {
+                    String reason = result != null && result.msg != null ? result.msg : "unknown error";
+                    message = "Install into the space failed: " + reason;
+                    Log.w(TAG, "Guest-requested install failed: " + reason);
+                }
+            } catch (Throwable t) {
+                message = "Install into the space failed";
+                Log.e(TAG, "Guest-requested install threw", t);
+            }
+            toast(message);
+        }
+
+        private void toast(final String message) {
+            try {
+                final Context ctx = BlackBoxCore.getContext();
+                if (ctx == null) {
+                    return;
+                }
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
+                        } catch (Throwable ignored) {
+                            // No usable UI context in this process; the log line is enough.
+                        }
+                    }
+                });
+            } catch (Throwable ignored) {
+            }
         }
     }
 }

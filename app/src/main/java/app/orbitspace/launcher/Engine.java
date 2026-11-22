@@ -52,6 +52,7 @@ final class Engine {
         String label;
         Drawable icon;
         boolean game;
+        boolean attachable;
     }
 
     /** An app installed on the phone that could be cloned into a space. */
@@ -125,6 +126,7 @@ final class Engine {
                 Prefs.setGame(ctx, ai.packageName, looksLikeGame(ai));
             }
             app.game = Prefs.isGame(ctx, ai.packageName);
+            app.attachable = Prefs.isAttachable(ctx, ai.packageName);
             out.add(app);
         }
         Collections.sort(out, new Comparator<VirtualApp>() {

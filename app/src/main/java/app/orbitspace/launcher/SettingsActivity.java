@@ -1,14 +1,18 @@
 package app.orbitspace.launcher;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -16,6 +20,7 @@ import java.io.File;
 public class SettingsActivity extends Activity {
 
     private TextView filesStatus;
+    private TextView overlayStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,14 @@ public class SettingsActivity extends Activity {
             }
         });
 
+        overlayStatus = findViewById(R.id.overlay_status);
+        findViewById(R.id.row_overlay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOverlaySettings();
+            }
+        });
+
         ((TextView) findViewById(R.id.root_status)).setText(
                 hasSuBinary() ? R.string.root_found : R.string.root_missing);
 
@@ -60,6 +73,24 @@ public class SettingsActivity extends Activity {
             filesStatus.setText(R.string.files_not_needed);
         } else {
             filesStatus.setText(Engine.hasAllFilesAccess() ? R.string.files_granted : R.string.files_missing);
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            overlayStatus.setText(R.string.overlay_not_needed);
+        } else {
+            overlayStatus.setText(Settings.canDrawOverlays(this)
+                    ? R.string.overlay_granted : R.string.overlay_missing);
+        }
+    }
+
+    private void openOverlaySettings() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+        try {
+            startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName())));
+        } catch (RuntimeException e) {
+            Toast.makeText(this, R.string.overlay_open_failed, Toast.LENGTH_LONG).show();
         }
     }
 

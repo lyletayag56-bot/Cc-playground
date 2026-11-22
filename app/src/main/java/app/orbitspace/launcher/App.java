@@ -33,7 +33,7 @@ public class App extends Application {
 
         try {
             BlackBoxCore.get().doAttachBaseContext(base, new SpaceConfig(base.getPackageName(), settings.daemon));
-            BlackBoxCore.get().addAppLifecycleCallback(new GameMode(settings));
+            BlackBoxCore.get().addAppLifecycleCallback(new GuestHooks(settings));
         } catch (Throwable t) {
             Log.e(TAG, "Engine failed to attach", t);
         }

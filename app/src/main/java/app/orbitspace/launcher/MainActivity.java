@@ -219,6 +219,28 @@ public class MainActivity extends Activity {
             }
         });
 
+        labels.add(getString(app.attachable ? R.string.action_attach_off : R.string.action_attach_on));
+        actions.add(new Runnable() {
+            @Override
+            public void run() {
+                if (app.attachable) {
+                    setAttachable(app, false);
+                } else {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle(R.string.attach_title)
+                            .setMessage(getString(R.string.attach_body, app.label))
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(R.string.attach_allow, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    setAttachable(app, true);
+                                }
+                            })
+                            .show();
+                }
+            }
+        });
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             labels.add(getString(R.string.action_shortcut));
             actions.add(new Runnable() {
@@ -287,6 +309,17 @@ public class MainActivity extends Activity {
                     }
                 })
                 .show();
+    }
+
+    private void setAttachable(final Engine.VirtualApp app, boolean attachable) {
+        Prefs.setAttachable(this, app.packageName, attachable);
+        // The setting is read when the app's process starts, so stop it now.
+        runOnEngine(new Runnable() {
+            @Override
+            public void run() {
+                Engine.stop(app.packageName, space);
+            }
+        }, getString(attachable ? R.string.attach_on_done : R.string.attach_off_done, app.label));
     }
 
     /** Runs an engine call in the background, then refreshes the grid. */

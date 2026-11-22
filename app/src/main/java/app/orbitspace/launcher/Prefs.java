@@ -27,6 +27,7 @@ final class Prefs {
 
     private static final String KEY_SPACE = "current_space";
     private static final String GAME_PREFIX = "game:";
+    private static final String ATTACH_PREFIX = "attach:";
 
     private Prefs() {
     }
@@ -68,6 +69,15 @@ final class Prefs {
         sp(c).edit().putBoolean(GAME_PREFIX + pkg, game).commit();
     }
 
+    /** Whether other apps in the spaces may attach to this app's processes. Off unless set. */
+    static boolean isAttachable(Context c, String pkg) {
+        return sp(c).getBoolean(ATTACH_PREFIX + pkg, false);
+    }
+
+    static void setAttachable(Context c, String pkg, boolean attachable) {
+        sp(c).edit().putBoolean(ATTACH_PREFIX + pkg, attachable).commit();
+    }
+
     /** Read-only copy of the settings, taken once per process at startup. */
     static final class Snapshot {
         final boolean boost;
@@ -76,36 +86,48 @@ final class Prefs {
         final boolean sustained;
         final boolean daemon;
         private final Set<String> games;
+        private final Set<String> attachable;
 
         Snapshot(boolean boost, boolean keepScreenOn, boolean maxRefresh,
-                 boolean sustained, boolean daemon, Set<String> games) {
+                 boolean sustained, boolean daemon, Set<String> games, Set<String> attachable) {
             this.boost = boost;
             this.keepScreenOn = keepScreenOn;
             this.maxRefresh = maxRefresh;
             this.sustained = sustained;
             this.daemon = daemon;
             this.games = games;
+            this.attachable = attachable;
         }
 
         boolean isGame(String pkg) {
             return pkg != null && games.contains(pkg);
         }
 
+        boolean isAttachable(String pkg) {
+            return pkg != null && attachable.contains(pkg);
+        }
+
         static Snapshot defaults() {
             return new Snapshot(defaultOf(KEY_BOOST), defaultOf(KEY_KEEP_SCREEN_ON),
                     defaultOf(KEY_MAX_REFRESH), defaultOf(KEY_SUSTAINED),
-                    defaultOf(KEY_DAEMON), new HashSet<String>());
+                    defaultOf(KEY_DAEMON), new HashSet<String>(), new HashSet<String>());
         }
     }
 
     static Snapshot snapshot(Context c) {
         SharedPreferences sp = sp(c);
         Set<String> games = new HashSet<>();
+        Set<String> attachable = new HashSet<>();
         // getAll() blocks until the file has been read from disk.
         for (Map.Entry<String, ?> e : sp.getAll().entrySet()) {
             String key = e.getKey();
-            if (key != null && key.startsWith(GAME_PREFIX) && Boolean.TRUE.equals(e.getValue())) {
+            if (key == null || !Boolean.TRUE.equals(e.getValue())) {
+                continue;
+            }
+            if (key.startsWith(GAME_PREFIX)) {
                 games.add(key.substring(GAME_PREFIX.length()));
+            } else if (key.startsWith(ATTACH_PREFIX)) {
+                attachable.add(key.substring(ATTACH_PREFIX.length()));
             }
         }
         return new Snapshot(
@@ -114,6 +136,6 @@ final class Prefs {
                 sp.getBoolean(KEY_MAX_REFRESH, defaultOf(KEY_MAX_REFRESH)),
                 sp.getBoolean(KEY_SUSTAINED, defaultOf(KEY_SUSTAINED)),
                 sp.getBoolean(KEY_DAEMON, defaultOf(KEY_DAEMON)),
-                games);
+                games, attachable);
     }
 }

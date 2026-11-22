@@ -32,6 +32,13 @@
     <string name="action_open">Open</string>
     <string name="action_game_on">Turn game mode on</string>
     <string name="action_game_off">Turn game mode off</string>
+    <string name="action_attach_on">Let tools attach to this app</string>
+    <string name="action_attach_off">Stop letting tools attach</string>
+    <string name="attach_title">Let tools attach?</string>
+    <string name="attach_body">Other apps in your spaces, such as a memory editor or a debugger, will be able to read and change the memory of %1$s while it runs.\n\nUse this for offline, single-player games. Online games usually detect it and can ban the account, and Orbit Space does nothing to hide it.</string>
+    <string name="attach_allow">Allow</string>
+    <string name="attach_on_done">Tools can now attach to %1$s</string>
+    <string name="attach_off_done">Tools can no longer attach to %1$s</string>
     <string name="action_shortcut">Add shortcut to home screen</string>
     <string name="action_stop">Force stop</string>
     <string name="action_clear">Clear data</string>
@@ -96,6 +103,11 @@
     <string name="files_granted">Granted.</string>
     <string name="files_missing">Not granted. Some apps need it to read their files on shared storage. Tap to open the system setting.</string>
     <string name="files_not_needed">Not needed on this version of Android.</string>
+    <string name="overlay_title">Display over other apps</string>
+    <string name="overlay_granted">Granted. Apps in a space can show floating windows and buttons.</string>
+    <string name="overlay_missing">Not granted. Apps in a space can\'t show floating windows or buttons until it is. Tap to open the system setting.</string>
+    <string name="overlay_not_needed">Not needed on this version of Android.</string>
+    <string name="overlay_open_failed">Couldn\'t open the setting. Look for \"Display over other apps\" under Orbit Space in the system\'s app settings.</string>
     <string name="sec_root">Root</string>
     <string name="root_found">Root detected on this phone</string>
     <string name="root_missing">No root detected on this phone</string>

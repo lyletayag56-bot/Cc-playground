@@ -113,6 +113,33 @@
                     android:lineSpacingExtra="2dp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/row_overlay"
+                style="@style/OrbitCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overlay_title"
+                    android:textColor="@color/text"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/overlay_status"
+                    style="@style/OrbitDim"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:lineSpacingExtra="2dp" />
+            </LinearLayout>
+
             <TextView
                 style="@style/OrbitSection"
                 android:layout_width="wrap_content"

@@ -89,6 +89,34 @@ cover everything running inside it.
 - Guests share Orbit Space's memory budget. On phones with 6 GB of RAM or less,
   use the "free memory" option and avoid running two heavy apps at once.
 
+## Memory editors and debuggers
+
+Android starts every app process closed to other processes: nothing else, not even
+another process with the same user id, can attach to it or read its memory. That
+is why a memory editor or debugger placed in a space next to a game normally sees
+nothing.
+
+Long-press an app and choose **Let tools attach to this app** to open that one app
+up. From its next start, other apps in your spaces can attach to it. It is off for
+every app until you turn it on, and you can turn it off again the same way.
+
+To use a tool that draws a floating button or window, also grant **Display over
+other apps** to Orbit Space (Settings in the ⋮ menu). Install the tool on the phone
+first, then add it and the game to the same space, and start both from there.
+
+What to expect:
+
+- **This is for offline, single-player games and for your own apps.** An online
+  game can see that it is running in a space and that it has been opened up, and
+  can ban the account. Orbit Space does nothing to hide either fact.
+- **Untested with any particular tool.** Closed-source tools such as GameGuardian
+  decide for themselves whether they accept a virtual space; if one refuses, the
+  exact error text is what is needed to go further.
+- **Any app in any space** can attach to an app you have opened up, not only the
+  tool you had in mind.
+- The `arm64-v8a-debug` build opens up every process without the per-app switch.
+  It is slower and is only there to tell an Orbit Space problem from a tool problem.
+
 ## Root
 
 Orbit Space does not need root and does not create it.
@@ -144,7 +172,7 @@ adb logcat -c
 adb logcat -d > orbit-log.txt
 ```
 
-The useful lines are tagged `OrbitSpace`, `OrbitEngine`, `OrbitGameMode`,
+The useful lines are tagged `OrbitSpace`, `OrbitEngine`, `OrbitGuest`,
 `BlackBoxCore` and `AndroidRuntime`.
 
 ## Rebranding

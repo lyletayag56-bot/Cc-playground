@@ -53,6 +53,8 @@ jobs:
         run: |
           mkdir -p "$RUNNER_TEMP/apk-out"
           cp app/build/outputs/apk/release/*.apk "$RUNNER_TEMP/apk-out/"
+          # One debug build too, for troubleshooting (slower; see the README).
+          cp app/build/outputs/apk/debug/*arm64-v8a*.apk "$RUNNER_TEMP/apk-out/" || true
           cd "$RUNNER_TEMP/apk-out"
           sha256sum *.apk > SHA256SUMS.txt
           git init -q -b orbit-space-apk

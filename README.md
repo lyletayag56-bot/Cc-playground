@@ -13,34 +13,21 @@ It has two parts:
   [NewBlackbox](https://github.com/ALEX5402/NewBlackbox) virtual engine, Apache-2.0,
   with the changes listed in `NOTICE`.
 
-> **Status: not yet run on a phone.** The launcher compiles against the Android 35
-> API and the engine's real method signatures, and its resources cross-check. A
-> full APK has not been built or tested, because the workspace this was written in
-> cannot download the Android SDK. Expect a round or two of fixes after the first
-> real build.
+> **Status: builds, not yet run on a phone.** GitHub Actions builds signed APKs
+> from this source. Nobody has installed one on a device yet, so expect problems
+> on first run and report them with a log (see the end of this file).
 
 ## Get an APK
 
-### Option 1: let GitHub build it (no tools needed)
+### Option 1: download a build
 
-1. Create a new, empty **private** repository on GitHub.
-2. Push this folder to it. The web uploader only takes 100 files at a time and
-   this project has about 690, so use git (or GitHub Desktop):
+Every push to this branch is built by GitHub Actions. The release APKs from the
+latest build are on the `orbit-space-apk` branch of this repository, and each
+workflow run also has them (plus debug builds) in its **orbit-space-apks**
+artifact.
 
-   ```
-   git init -b main
-   git add -A
-   git commit -m "Orbit Space"
-   git remote add origin https://github.com/YOUR_NAME/YOUR_REPO.git
-   git push -u origin main
-   ```
-3. Open the repository's **Actions** tab. The "Build APK" workflow starts on its
-   own after a push to `main`; you can also start it with **Run workflow**.
-4. When it finishes (the first run is the slowest, since it downloads the NDK),
-   open the run and download **orbit-space-apks** from the Artifacts section.
-5. Unzip it and install `release/OrbitSpace_0.1.0_arm64-v8a-release.apk`.
-
-If the build fails, the run's log and the **build-reports** artifact say why.
+To build your own copy, push this folder to any GitHub repository on a branch
+named `main`, `master` or `orbit-space`; the "Build APK" workflow does the rest.
 
 ### Option 2: Android Studio
 

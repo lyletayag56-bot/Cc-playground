@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Orbit Space</string>
+
+    <!-- Home -->
+    <string name="space_n">Space %1$d</string>
+    <string name="subtitle_empty">Nothing here yet</string>
+    <plurals name="app_count">
+        <item quantity="one">%1$d app in this space</item>
+        <item quantity="other">%1$d apps in this space</item>
+    </plurals>
+    <string name="empty_title">This space is empty</string>
+    <string name="empty_body">Add a game or app from your phone. It runs here with its own separate data and sign-in.</string>
+    <string name="empty_add">Add an app</string>
+    <string name="menu_more">More</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_google">Google services</string>
+    <string name="google_add_body">Add Google Play services, Play Store and Play Games to %1$s? Games that sign in with Google need them. They run inside the space with their own, separate sign-in.</string>
+    <string name="google_add">Add</string>
+    <string name="google_adding">Adding Google services…</string>
+    <string name="google_added">Google services added</string>
+    <string name="google_failed">Couldn\'t add Google services</string>
+    <string name="google_remove_body">Google services are in %1$s. Remove them? Games there will no longer be able to sign in with Google.</string>
+    <string name="google_remove">Remove</string>
+    <string name="google_removed">Google services removed</string>
+    <string name="google_unavailable">This phone has no Google Play services to copy into a space.</string>
+    <string name="menu_free_memory">Stop all running apps</string>
+    <string name="starting">Starting %1$s…</string>
+    <string name="back">Back</string>
+
+    <!-- App menu -->
+    <string name="action_open">Open</string>
+    <string name="action_game_on">Turn game mode on</string>
+    <string name="action_game_off">Turn game mode off</string>
+    <string name="action_shortcut">Add shortcut to home screen</string>
+    <string name="action_stop">Force stop</string>
+    <string name="action_clear">Clear data</string>
+    <string name="action_remove">Remove from this space</string>
+    <string name="confirm_clear">Clear all data for %1$s in this space? Saved progress and sign-ins stored on the phone will be lost.</string>
+    <string name="confirm_remove">Remove %1$s from this space? Its data here will be deleted. The copy installed on your phone is not touched.</string>
+    <string name="done_stopped">%1$s stopped</string>
+    <string name="done_cleared">Data cleared for %1$s</string>
+    <string name="done_removed">%1$s removed</string>
+    <string name="done_freed">Running apps stopped</string>
+
+    <!-- Spaces -->
+    <string name="spaces_title">Spaces</string>
+    <string name="space_current">%1$s (current)</string>
+    <string name="space_new">New space</string>
+    <string name="space_delete">Delete %1$s…</string>
+    <string name="confirm_delete_space">Delete %1$s and the data of every app in it?</string>
+
+    <!-- Picker -->
+    <string name="picker_title">Add an app</string>
+    <string name="picker_subtitle">Into %1$s</string>
+    <string name="picker_apk">APK file</string>
+    <string name="picker_search">Search installed apps</string>
+    <string name="picker_empty">No matching apps on this phone.</string>
+    <string name="state_add">Add</string>
+    <string name="state_added">Added</string>
+    <string name="state_unsupported">Not supported</string>
+    <string name="adding">Adding %1$s…</string>
+    <string name="installing_file">Installing the APK…</string>
+    <string name="the_apk">the APK</string>
+    <string name="added">%1$s added</string>
+    <string name="already_added">%1$s is already in this space</string>
+
+    <!-- Errors -->
+    <string name="err_launch">Couldn\'t start %1$s. Try Force stop, then open it again.</string>
+    <string name="err_add_title">Couldn\'t add %1$s</string>
+    <string name="err_unknown">The engine didn\'t give a reason.</string>
+    <string name="err_no_answer">The engine didn\'t answer. Close Orbit Space, open it again and retry.</string>
+    <string name="err_read_file">That file couldn\'t be opened.</string>
+    <string name="err_not_apk">That file isn\'t a single installable .apk. Bundles such as .xapk and .apks aren\'t supported: install the app on your phone first, then add it from the list.</string>
+    <string name="err_no_file_picker">No file picker is available on this phone.</string>
+    <string name="err_abi_32">This app only has 32-bit code and this is the 64-bit build of Orbit Space. Install the armeabi-v7a build to run it.</string>
+    <string name="err_abi_64">This app only has 64-bit code and this is the 32-bit build of Orbit Space. Install the arm64-v8a build to run it.</string>
+    <string name="err_shortcut">Your home screen doesn\'t accept pinned shortcuts.</string>
+    <string name="err_shortcut_gone">That app couldn\'t be started. It may have been removed from its space.</string>
+
+    <!-- Settings -->
+    <string name="sec_game">Game mode</string>
+    <string name="sec_game_note">Applies to apps marked with a dot. Long-press an app on the home screen to turn game mode on or off for it. Changes take effect the next time the app starts.</string>
+    <string name="set_boost">Free memory before a game starts</string>
+    <string name="set_boost_sum">Stops every other app running in your spaces.</string>
+    <string name="set_refresh">Ask for the fastest refresh rate</string>
+    <string name="set_refresh_sum">Lets a 90 or 120 Hz screen run at full speed in games.</string>
+    <string name="set_screen_on">Keep the screen on</string>
+    <string name="set_screen_on_sum">The screen won\'t dim or lock while a game is open.</string>
+    <string name="set_sustained">Sustained performance</string>
+    <string name="set_sustained_sum">Trades peak speed for a steadier frame rate in long sessions. Only some phones support it.</string>
+    <string name="sec_engine">Engine</string>
+    <string name="set_daemon">Keep the engine alive</string>
+    <string name="set_daemon_sum">Shows a notification so Android doesn\'t close the engine mid-game. Restart Orbit Space after changing this.</string>
+    <string name="files_title">All-files access</string>
+    <string name="files_granted">Granted.</string>
+    <string name="files_missing">Not granted. Some apps need it to read their files on shared storage. Tap to open the system setting.</string>
+    <string name="files_not_needed">Not needed on this version of Android.</string>
+    <string name="sec_root">Root</string>
+    <string name="root_found">Root detected on this phone</string>
+    <string name="root_missing">No root detected on this phone</string>
+    <string name="root_note">Apps in a space run as Orbit Space itself. On a rooted phone, when one of them asks for root your root manager shows the request as coming from Orbit Space, and allowing it gives root to every app in every space. Orbit Space does not fake root on phones that don\'t have it, and does not hide it.</string>
+    <string name="sec_about">About</string>
+    <string name="about_text">Orbit Space %1$s (%2$s-bit build). Built on the open-source NewBlackbox virtual engine, Apache License 2.0.</string>
+</resources>

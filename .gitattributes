@@ -1,0 +1,6 @@
+* text=auto
+*.keystore binary
+*.jar binary
+*.a binary
+*.png binary
+gradlew text eol=lf

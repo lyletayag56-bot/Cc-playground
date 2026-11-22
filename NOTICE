@@ -1,0 +1,26 @@
+Orbit Space
+===========
+
+This project is built on NewBlackbox (https://github.com/ALEX5402/NewBlackbox,
+commit 89b59836c66f173756a4ae258cf379a957649820), which is licensed under the
+Apache License, Version 2.0 and is itself derived from BlackBox and VirtualApp.
+The full license text is in the LICENSE file.
+
+The Bcore, black-reflection and compiler directories are the upstream engine.
+The app directory (the launcher) is new.
+
+Changes made to the upstream engine
+-----------------------------------
+- app/configuration/ClientConfiguration.java: getLogSenderChatId() now returns
+  null, which disables the upload of logcat and device details to a third-party
+  server on crashes. Added isEnableLogcatCapture(), default false.
+- BlackBoxCore.java: continuous logcat capture to Downloads/logs now only starts
+  when isEnableLogcatCapture() returns true.
+- closecode/Entry.java removed (a hook that loaded an external native library
+  into a guest app).
+- cpp/Utils/VirtualSpoof.cpp removed (reported a fake device model and Android
+  version to guest apps). cpp/Utils/AntiDetection.cpp removed. cpp/Android.mk
+  updated to match.
+- Bcore/build.gradle: code shrinking turned off for release builds.
+- The upstream demo app, its bundled third-party libraries, the upstream CI
+  workflow and the upstream documentation were not carried over.

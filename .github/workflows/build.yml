@@ -17,17 +17,19 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
           cache: gradle
 
-      - name: Set up the Android SDK
-        uses: android-actions/setup-android@v3
-
+      # GitHub's Ubuntu runners come with the Android SDK already installed.
+      # Gradle downloads the exact platform, build tools and NDK it needs, as
+      # long as the licenses have been accepted.
       - name: Accept Android SDK licenses
-        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
 
       - name: Build
         run: |
